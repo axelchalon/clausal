@@ -1,5 +1,6 @@
 # Clausal form
 Transforms a logic sentence to clausal normal form.
+
 For example, `¬(g ∧ (r ⇒ f)` becomes `{{¬g,r}, {¬g,¬f}}`.
 
 **I'm a beginner at Haskell. Please let me know how I can improve the code or make it more idiomatic! Thank you!**
