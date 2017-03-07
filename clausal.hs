@@ -7,7 +7,7 @@ data LogicTree = Leaf AtomicSentence
                | Or LogicTree LogicTree
                | Implies LogicTree LogicTree
                | Equivalence LogicTree LogicTree
-               deriving (Show)
+                deriving (Show)
 
 implicationsOut :: LogicTree -> LogicTree
 implicationsOut (Implies a b) = Or (Not (implicationsOut a)) (implicationsOut b)
@@ -88,8 +88,8 @@ convertToClausalForm = operatorsOut . distribution . removeDoubleNegations . neg
 
 main :: IO ()
 main = do
-    let exampleTree = Not (And (Leaf "g") (Implies (Leaf "r") (Leaf "f"))) :: LogicTree -- ¬g ∧ (r ⇒ f)
-    -- let exampleTree = Implies (Leaf "m") (Or (Leaf "p") (Leaf "q"))
-    -- let exampleTree = And (Leaf "g") (Implies (Leaf "r") (Leaf "f")) -- g ∧ (r ⇒ f)
-    -- let exampleTree = And (Leaf "g") (Not (Not (Leaf "r")))
-    putStrLn . show $ convertToClausalForm exampleTree
+  let exampleTree = Not (And (Leaf "g") (Implies (Leaf "r") (Leaf "f"))) :: LogicTree -- ¬g ∧ (r ⇒ f)
+  -- let exampleTree = Implies (Leaf "m") (Or (Leaf "p") (Leaf "q"))
+  -- let exampleTree = And (Leaf "g") (Implies (Leaf "r") (Leaf "f")) -- g ∧ (r ⇒ f)
+  -- let exampleTree = And (Leaf "g") (Not (Not (Leaf "r")))
+  putStrLn . show $ convertToClausalForm exampleTree
