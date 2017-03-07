@@ -50,7 +50,7 @@ distribution (Leaf a) = Leaf a
 -- there's probably a more concise way of writing this
 -- leaf / not leaf could be made a type (?)
 operatorsOut :: LogicTree -> [Clause]
-operatorsOut t = operatorsOutR t
+operatorsOut = operatorsOutR
   where
     operatorsOutR :: LogicTree -> [Clause]
     operatorsOutR (Or a b) = [flattenOrTree (Or a b)]
@@ -83,38 +83,13 @@ operatorsOut t = operatorsOutR t
     flattenOrTree (Or (Or a b) (Not (Leaf c))) = flattenOrTree (Or a b) ++ [LiteralNegationAtomicSentence c]
     flattenOrTree (Or (Or a b) (Or c d)) = flattenOrTree (Or a b) ++ flattenOrTree (Or c d)
 
-exampleTree :: LogicTree
--- exampleTree = Implies (Leaf "m") (Or (Leaf "p") (Leaf "q"))
--- exampleTree = And (Leaf "g") (Implies (Leaf "r") (Leaf "f")) -- g ∧ (r ⇒ f)
-exampleTree = Not (And (Leaf "g") (Implies (Leaf "r") (Leaf "f"))) -- ¬g ∧ (r ⇒ f)
--- exampleTree = And (Leaf "g") (Not (Not (Leaf "r")))
-
--- convertExampleTree :: LogicTree
--- convertExampleTree = removeDoubleNegations (negationsIn (removeDoubleNegations (implicationsOut exampleTree))) -- $ ou . notation
--- convertExampleTree = removeDoubleNegations (implicationsOut exampleTree) -- $ ou . notation
+convertToClausalForm :: LogicTree -> [Clause]
+convertToClausalForm = operatorsOut . distribution . removeDoubleNegations . negationsIn . removeDoubleNegations . implicationsOut
 
 main :: IO ()
 main = do
-   putStrLn (show exampleTree)
-   putStrLn ""
-
-   -- I
-   putStrLn "I"
-   putStrLn (show $ implicationsOut exampleTree)
-   putStrLn ""
-
-   -- N
-   putStrLn "N"
-   putStrLn (show $ removeDoubleNegations $ implicationsOut exampleTree)
-   putStrLn (show $ negationsIn $ removeDoubleNegations $ implicationsOut exampleTree)
-   putStrLn (show $ removeDoubleNegations $ negationsIn $ removeDoubleNegations $ implicationsOut exampleTree)
-   putStrLn ""
-
-   -- D
-   putStrLn "D"
-   putStrLn (show $ distribution $ removeDoubleNegations $ negationsIn $ removeDoubleNegations $ implicationsOut exampleTree)
-   putStrLn ""
-
-   -- O
-   putStrLn "O"
-   putStrLn (show $ operatorsOut $ distribution $ removeDoubleNegations $ negationsIn $ removeDoubleNegations $ implicationsOut exampleTree)
+    let exampleTree = Not (And (Leaf "g") (Implies (Leaf "r") (Leaf "f"))) :: LogicTree -- ¬g ∧ (r ⇒ f)
+    -- let exampleTree = Implies (Leaf "m") (Or (Leaf "p") (Leaf "q"))
+    -- let exampleTree = And (Leaf "g") (Implies (Leaf "r") (Leaf "f")) -- g ∧ (r ⇒ f)
+    -- let exampleTree = And (Leaf "g") (Not (Not (Leaf "r")))
+    putStrLn . show $ convertToClausalForm exampleTree
