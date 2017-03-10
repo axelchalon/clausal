@@ -1,6 +1,12 @@
 type AtomicSentence = String
+
+data Literal = LiteralAtomicSentence AtomicSentence | LiteralNegationAtomicSentence AtomicSentence
+instance Show Literal where
+  show (LiteralAtomicSentence a) = a
+  show (LiteralNegationAtomicSentence a) = "¬" ++ a
+
 type Clause = [Literal]
-data Literal = LiteralAtomicSentence AtomicSentence | LiteralNegationAtomicSentence AtomicSentence deriving (Show)
+
 data LogicTree = Leaf AtomicSentence
                | Not LogicTree
                | And LogicTree LogicTree

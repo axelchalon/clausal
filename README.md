@@ -10,6 +10,6 @@ For example, `¬(g ∧ (r ⇒ f)` becomes `{{¬g,r}, {¬g,¬f}}`.
 - [ ] Convert a string (RPN?) to a tree
 - [x] Implement resolution steps
 - [ ] Make it a module
-- [ ] Make tests
+- [ ] Make tests / generative tests
 
 Reference: https://www.youtube.com/watch?v=sjKA-sbwh_M
